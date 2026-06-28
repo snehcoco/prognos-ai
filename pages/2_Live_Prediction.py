@@ -62,7 +62,8 @@ dataset_name = st.sidebar.selectbox("Dataset", list(DATASETS.keys()))
 arch         = st.sidebar.selectbox("Architecture", ["EfficientNet-B0", "ResNet50", "DenseNet121"])
 show_gcam    = st.sidebar.checkbox("Show Grad-CAM heatmap", value=True)
 top_k        = st.sidebar.slider("Top-K predictions",
-                                  1, min(5, DATASETS[dataset_name]["num_classes"]), 3)
+                                  1, min(5, DATASETS[dataset_name]["num_classes"]),
+                                  min(3, DATASETS[dataset_name]["num_classes"]))
 
 st.sidebar.markdown("<hr style='margin:16px 0;'>", unsafe_allow_html=True)
 st.sidebar.markdown(f"""
