@@ -136,30 +136,6 @@ with col_img:
     st.image(image, use_container_width=True)
 
 with col_info:
-    st.markdown(f"""
-    <div class="card">
-        <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase;
-                    letter-spacing:0.08em; color:#94A3B8; margin-bottom:12px;">
-            Inference Settings
-        </div>
-        <table style="width:100%; font-size:0.85rem; border-collapse:collapse;">
-            <tr><td style="padding:5px 0; color:#64748B; width:40%;">Dataset</td>
-                <td style="padding:5px 0; font-weight:600; color:#1E293B;">{dataset_name}</td></tr>
-            <tr><td style="padding:5px 0; color:#64748B;">Architecture</td>
-                <td style="padding:5px 0; font-weight:600;
-                    color:{MODEL_COLORS.get(arch,'#1E293B')};">{arch}</td></tr>
-            <tr><td style="padding:5px 0; color:#64748B;">Task</td>
-                <td style="padding:5px 0; font-weight:600; color:#1E293B;">
-                    {'Binary' if cfg['task']=='binary' else 'Multi-class'} ({cfg['num_classes']} classes)</td></tr>
-            <tr><td style="padding:5px 0; color:#64748B;">Classes</td>
-                <td style="padding:5px 0; color:#475569; font-size:0.8rem;">
-                    {', '.join(classes)}</td></tr>
-            <tr><td style="padding:5px 0; color:#64748B;">Input size</td>
-                <td style="padding:5px 0; color:#475569;">224 × 224 · ImageNet norm</td></tr>
-        </table>
-    </div>
-    """, unsafe_allow_html=True)
-
     with st.spinner(f"Loading {arch} weights for {dataset_name}…"):
         model, err = get_model(dataset_name, arch)
 
