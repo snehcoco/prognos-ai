@@ -99,7 +99,6 @@ def show_plots(dataset_name: str, plot_order: list):
     available = [(n, load_plot(dataset_name, n)) for n in plot_order]
     available = [(n, img) for n, img in available if img]
     if not available:
-        st.info("📂 Plots will appear here once images are added to the assets folder.")
         return
     st.markdown("**Training Plots**")
     for i in range(0, len(available), 2):
@@ -122,7 +121,6 @@ def show_gradcam(dataset_name: str):
     gcam_imgs = [(m, os.path.join(base, p)) for m, p in gcam_files.items()
                  if os.path.isfile(os.path.join(base, p))]
     if not gcam_imgs:
-        st.info("📂 Grad-CAM images will appear here once added to the assets folder.")
         return
     st.markdown("**Grad-CAM Visualisations**")
     gcols = st.columns(len(gcam_imgs))
