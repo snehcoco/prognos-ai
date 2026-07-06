@@ -80,8 +80,8 @@ ASSETS = os.path.join(BASE_DIR, "assets")
 PLOTS = {
     "ISIC 2018": os.path.join(ASSETS, "ISIC2018"),
     "ISIC 2019": os.path.join(ASSETS, "ISIC2019"),
-    "ISIC 2020": "",
-    "MILK10K":   "",
+    "ISIC 2020": os.path.join(ASSETS, "ISIC2020"),
+    "MILK10K":   os.path.join(ASSETS, "MILK10K"),
 }
 
 # ── Dataset metadata ──────────────────────────────────────────────────────────
@@ -139,8 +139,18 @@ DATASETS = {
             "ResNet50":        {"Accuracy": 83.11, "Precision": 97.45, "Recall": 83.11, "F1": 89.04, "ROC-AUC": 0.8865},
             "DenseNet121":     {"Accuracy": 83.83, "Precision": 97.53, "Recall": 83.83, "F1": 89.49, "ROC-AUC": 0.8811},
         },
-        "plot_files": {},
-        "gradcam_files": {},
+        "plot_files": {
+            "Class Distribution":        "class_distribution.png",
+            "Sample Images":             "sample_images.png",
+            "ROC Curves":                "roc_curves.png",
+            "Model Comparison":          "model_comparison.png",
+            "EfficientNet-B0 Confusion": "confusion_efficientnet.png",
+            "ResNet50 Confusion":        "confusion_resnet50.png",
+            "DenseNet121 Confusion":     "confusion_densenet121.png",
+        },
+        "gradcam_files": {
+            "All Models": "gradcam.png",
+        },
     },
     "MILK10K": {
         "description": "11-class multi-centre dataset: AKIEC, BCC, BEN_OTH, BKL, DF, INF, MAL_OTH, MEL, NV, SCCKA, VASC.",
@@ -152,8 +162,20 @@ DATASETS = {
             "ResNet50":        {"Accuracy": 52.39, "Precision": 62.02, "Recall": 52.39, "F1": 55.49, "ROC-AUC": 0.8380},
             "DenseNet121":     {"Accuracy": 60.50, "Precision": 64.25, "Recall": 60.50, "F1": 61.68, "ROC-AUC": 0.8709},
         },
-        "plot_files": {},
-        "gradcam_files": {},
+        "plot_files": {
+            "Class Distribution":        "class_distribution.png",
+            "Sample Images":             "sample_images.png",
+            "ROC Curves":                "roc_curves.png",
+            "Model Comparison":          "model_comparison.png",
+            "EfficientNet-B0 Confusion": "confusion_efficientnet.png",
+            "ResNet50 Confusion":        "confusion_resnet50.png",
+            "DenseNet121 Confusion":     "confusion_densenet121.png",
+        },
+        "gradcam_files": {
+            "EfficientNet-B0": "gradcam_EfficientNet_B0.png",
+            "ResNet50":        "gradcam_ResNet50.png",
+            "DenseNet121":     "gradcam_DenseNet121.png",
+        },
     },
 }
 

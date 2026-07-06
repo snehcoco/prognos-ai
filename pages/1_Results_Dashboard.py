@@ -98,17 +98,39 @@ def metrics_table(metrics_dict: dict) -> pd.DataFrame:
 def show_plots(dataset_name: str, plot_order: list):
     available = [(n, load_plot(dataset_name, n)) for n in plot_order]
     available = [(n, img) for n, img in available if img]
-    if available:
-        st.markdown("**Training Plots**")
-        for i in range(0, len(available), 2):
-            pair = available[i:i+2]
-            c = st.columns(len(pair))
-            for col, (name, img) in zip(c, pair):
-                with col:
-                    st.markdown(f"<div style='font-size:0.82rem; font-weight:600; "
-                                f"color:#475569; margin-bottom:4px;'>{name}</div>",
-                                unsafe_allow_html=True)
-                    st.image(img, use_container_width=True)
+    if not available:
+        return
+    st.markdown("**Training Plots**")
+    for i in range(0, len(available), 2):
+        pair = available[i:i+2]
+        c = st.columns(len(pair))
+        for col, (name, img) in zip(c, pair):
+            with col:
+                st.markdown(f"<div style='font-size:0.82rem; font-weight:600; "
+                            f"color:#475569; margin-bottom:4px;'>{name}</div>",
+                            unsafe_allow_html=True)
+                st.image(img, use_container_width=True)
+
+
+def show_gradcam(dataset_name: str):
+    cfg = DATASETS[dataset_name]
+    gcam_files = cfg.get("gradcam_files", {})
+    base = PLOTS.get(dataset_name, "")
+    if not base or not gcam_files:
+        return
+    gcam_imgs = [(m, os.path.join(base, p)) for m, p in gcam_files.items()
+                 if os.path.isfile(os.path.join(base, p))]
+    if not gcam_imgs:
+        return
+    st.markdown("**Grad-CAM Visualisations**")
+    gcols = st.columns(len(gcam_imgs))
+    for col, (model_name, fpath) in zip(gcols, gcam_imgs):
+        with col:
+            st.markdown(f"<div style='font-size:0.82rem; font-weight:600; "
+                        f"color:{MODEL_COLORS.get(model_name,'#475569')}; "
+                        f"margin-bottom:4px;'>{model_name}</div>",
+                        unsafe_allow_html=True)
+            st.image(Image.open(fpath), use_container_width=True)
 
 
 def dataset_header(name: str, cfg: dict):
@@ -155,8 +177,9 @@ with tabs[0]:
         st.plotly_chart(metrics_chart(cfg["metrics"], "MILK10K — Model Comparison"),
                         use_container_width=True)
 
-    show_plots("MILK10K", ["Class Distribution","Sample Images","Training Curves",
-                            "Confusion Matrices","Model Comparison"])
+    show_plots("MILK10K", ["Class Distribution","Sample Images","ROC Curves","Model Comparison",
+                            "EfficientNet-B0 Confusion","ResNet50 Confusion","DenseNet121 Confusion"])
+    show_gradcam("MILK10K")
 
 # ════ ISIC 2020 ══════════════════════════════════════════════════════════════
 with tabs[1]:
@@ -236,8 +259,9 @@ with tabs[1]:
         </div>
         """, unsafe_allow_html=True)
 
-    show_plots("ISIC 2020", ["Class Distribution","Sample Images","Training Curves",
-                              "Confusion Matrices","Model Comparison"])
+    show_plots("ISIC 2020", ["Class Distribution","Sample Images","ROC Curves","Model Comparison",
+                              "EfficientNet-B0 Confusion","ResNet50 Confusion","DenseNet121 Confusion"])
+    show_gradcam("ISIC 2020")
 
 
 # ════ ISIC 2018 ══════════════════════════════════════════════════════════════
@@ -261,22 +285,7 @@ with tabs[2]:
     show_plots("ISIC 2018", ["Class Distribution","Sample Images","Training Curves",
                               "ROC Curves","Model Comparison","Confusion Matrices"])
 
-    # Grad-CAM plots from report
-    gcam_files = cfg.get("gradcam_files", {})
-    base = PLOTS.get("ISIC 2018", "")
-    if base and gcam_files:
-        gcam_imgs = [(m, os.path.join(base, p)) for m, p in gcam_files.items()
-                     if os.path.isfile(os.path.join(base, p))]
-        if gcam_imgs:
-            st.markdown("**Grad-CAM Visualisations**")
-            gcols = st.columns(len(gcam_imgs))
-            for col, (model_name, fpath) in zip(gcols, gcam_imgs):
-                with col:
-                    st.markdown(f"<div style='font-size:0.82rem; font-weight:600; "
-                                f"color:{MODEL_COLORS.get(model_name,'#475569')}; "
-                                f"margin-bottom:4px;'>{model_name}</div>",
-                                unsafe_allow_html=True)
-                    st.image(Image.open(fpath), use_container_width=True)
+    show_gradcam("ISIC 2018")
 
 # ════ ISIC 2019 ══════════════════════════════════════════════════════════════
 with tabs[3]:
