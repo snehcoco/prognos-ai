@@ -220,7 +220,7 @@ This project is intended solely for research and educational purposes. The predi
 
 * Subhasree Paul
 * Snehansha Das
-* Srijoni Sarkar
+  
 
 Mentor: Dr. Ajey Kumar
 
